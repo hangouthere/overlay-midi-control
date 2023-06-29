@@ -1,0 +1,33 @@
+@import url('./toggleButton.css');
+
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+}
+
+body {
+  background: #222;
+  color: #eee;
+
+  font-family: Verdana, sans-serif;
+
+  display: flex;
+  flex-direction: column;
+}
+
+#app {
+  padding: 1rem;
+  flex: 1;
+}
+
+#log {
+  display: none;
+  padding: 1rem;
+  max-height: 33vh;
+  overflow: auto;
+}
+
+#app.debug ~ #log {
+  display: block;
+}

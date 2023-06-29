@@ -1,0 +1,17 @@
+{
+  "name": "npx",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "prettier": "@hangouthere/util/prettier",
+  "scripts": {
+    "start": "http-server ./src"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@hangouthere/util": "github:hangouthere/hh-util",
+    "http-server": "^14.1.1"
+  }
+}

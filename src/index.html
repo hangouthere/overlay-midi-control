@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MIDI Control</title>
+    <link href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles/index.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.js"></script>
+
+    <script type="module">
+      import App from './scripts/index.js';
+
+      const app = new App();
+      app.init();
+    </script>
+
+    <script id="template-toggleButton" type="text/x-handlebars-template">
+      <div class='toggleButton'>
+        <div class='control'>
+          <input type='checkbox' data-status='{{status}}' data-data1='{{data1}}' />
+          <div class='knobs'></div>
+          <div class='track'></div>
+        </div>
+
+        <div class='label'>({{id}}) {{name}}</div>
+      </div>
+    </script>
+  </head>
+
+  <body>
+    <section id="app">
+      <div id="buttonPanel"></div>
+    </section>
+
+    <section id="log"></section>
+  </body>
+</html>
