@@ -3,7 +3,7 @@ export default {
     name: 'Master Mute',
     status: 176,
     data1: 127,
-    hide: true
+    exclude: true
   },
   1: {
     name: 'Robo 1',
@@ -39,12 +39,12 @@ export default {
     name: 'Echo',
     status: 176,
     data1: 0,
-    hide: true
+    exclude: true
   },
   100: {
     name: 'Reverb',
     status: 176,
     data1: 1,
-    hide: true
+    exclude: true
   }
 };

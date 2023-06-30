@@ -1,10 +1,7 @@
-// https://www.midi.org/specifications-old/item/table-2-expanded-messages-list-status-bytes
-
 import MIDIManager from './MIDIManager.js';
 import TwitchPubSub from './TwitchPubSub.js';
 import VoiceMap from './VoiceMap.js';
 
-const REWARD_TITLE_VOICE = 'Change My Voice';
 const VOICE_TTL = 3 * 60 * 1000;
 const domParser = new DOMParser();
 
@@ -20,29 +17,40 @@ export default class Bootstrapper {
   /** @type {URLSearchParams} */
   #params;
 
+  #rewardTitle = 'Change My Voice';
   #templateId = 'template-toggleButton';
   #template;
 
   async init() {
+    this.#getParams();
+
     this.#elemApp = document.getElementById('app');
     this.#elemButtonPanel = document.getElementById('buttonPanel');
     this.#elemLog = document.getElementById('log');
 
     try {
+      if (!this.#params.has('username')) {
+        throw new Error('"username" needs to be supplied in the URI for this to work!');
+      }
+
       this.#midiManager = new MIDIManager(this.#log, this.#updateStatus);
-      this.#midiManager.init();
+      await this.#midiManager.init();
     } catch (err) {
       if (err instanceof Error || err instanceof DOMException) {
         this.#log(err.message);
       }
+
+      this.#elemApp.classList.toggle('disabled', true);
+      this.#elemApp.classList.toggle('debug', true);
+
+      return console.log(err);
     }
 
-    this.#elemApp.addEventListener('change', this.#onToggleButton);
-
-    this.#getParams();
     this.#detectDebug();
     this.#prepButtons();
     this.#prepPubSub();
+
+    this.#rewardTitle = this.#params.get('rewardTitle') ?? this.#rewardTitle;
   }
 
   #log = msg => {
@@ -66,6 +74,8 @@ export default class Bootstrapper {
     const voices = Object.entries(VoiceMap);
 
     voices.forEach(([id, voiceData]) => this.#renderButton({ id, ...voiceData }));
+
+    this.#elemApp.addEventListener('change', this.#onToggleButton);
   }
 
   #renderButton = data => {
@@ -154,13 +164,13 @@ export default class Bootstrapper {
 
     const voiceNum = parseInt(userInput);
 
-    if (REWARD_TITLE_VOICE !== rewardTitle || isNaN(voiceNum)) {
+    if (this.#rewardTitle !== rewardTitle || isNaN(voiceNum)) {
       return;
     }
 
     const voiceData = VoiceMap[voiceNum];
 
-    if ((voiceNum <= 0 && !voiceData) || voiceData.hide) {
+    if ((voiceNum <= 0 && !voiceData) || voiceData.exclude) {
       return;
     }
 
