@@ -46,7 +46,7 @@ export default class Bootstrapper {
       return console.log(err);
     }
 
-    this.#detectDebug();
+    this.#detectParamModifiers();
     this.#prepButtons();
     this.#prepPubSub();
 
@@ -62,9 +62,13 @@ export default class Bootstrapper {
     this.#params = url.searchParams;
   }
 
-  #detectDebug() {
+  #detectParamModifiers() {
     if (this.#params.get('debug')) {
       this.#elemApp.classList.toggle('debug');
+    }
+
+    if (this.#params.get('stream')) {
+      this.#elemApp.classList.toggle('stream');
     }
   }
 

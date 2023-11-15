@@ -31,3 +31,7 @@ body {
 #app.debug ~ #log {
   display: block;
 }
+
+#app.stream {
+  background: #f0f;
+}
